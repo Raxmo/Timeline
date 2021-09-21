@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,9 +21,15 @@ namespace Timeline
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		[DllImport("Kernel32")]
+		public static extern void AllocConsole();
+		[DllImport("Kernel32")]
+		public static extern void FreeConsole();
+
 		public MainWindow()
 		{
 			InitializeComponent();
+			AllocConsole();
 		}
 	}
 }
