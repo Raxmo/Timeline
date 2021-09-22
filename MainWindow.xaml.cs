@@ -38,7 +38,8 @@ namespace Timeline
 		double zoom = 0.0;//-> 0 - 1, from one order of magnitude to the next
 		byte zlom = 0; //-> zero is a one-year span
 
-
+		double pan = 0;
+		int year = 0;
 
 		Rectangle[] sepperators = new Rectangle[201];
 		#endregion
@@ -117,18 +118,38 @@ namespace Timeline
 
 		private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
-			if(e.Delta > 0)
+			if(e.Delta > 0 && zlom > 0)
 			{
 				zoom += 0.1;
 			}
-			else if(e.Delta < 0)
+			else if(e.Delta < 0 && zlom < 255)
 			{
 				zoom -= 0.1;
 			}
 
-			zoom = (zoom + 1.0) % 1.0;
+			if (zoom >= 1)
+			{
+				zoom -= 1.0;
+				zlom--;
+			}
+
+			if(zoom < 0)
+			{
+				zoom += 1.0;
+				zlom++;
+			}
 
 			DrawSepperators();
+		}
+
+		private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+		{
+
+		}
+
+		private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+		{
+
 		}
 	}
 	#endregion
