@@ -40,14 +40,18 @@ namespace Timeline
 
 
 
-		Rectangle[] sepperators = new Rectangle[101];
+		Rectangle[] sepperators = new Rectangle[201];
 		#endregion
 
 		#region Methods
+
+		double Lerp(double a, double b, double t)
+		{
+			return (1 - t) * a + t * b;
+		}
+
 		void InitSepperators()
 		{
-			double gap = (double)TLPan.ActualWidth / (sepperators.Length - 1.0);
-
 			for(int i = 0; i < sepperators.Length; i++)
 			{
 				Rectangle sep = new Rectangle();
@@ -55,8 +59,6 @@ namespace Timeline
 				TLPan.Children.Add(sep);
 				sep.Width = 3;
 				sep.Height = TLPan.RenderSize.Height;
-				double x = gap * i;
-				Canvas.SetLeft(sep, x);
 				sep.VerticalAlignment = VerticalAlignment.Stretch;
 				sepperators[i] = sep;
 			}
@@ -65,13 +67,38 @@ namespace Timeline
 		void DrawSepperators()
 		{
 			if (sepperators[0] == null) return;
-			double gap = (double)TLPan.RenderSize.Width / (sepperators.Length - 1.0);
+			double gap = Math.Pow(10, zoom) * (double)TLPan.RenderSize.Width / ((sepperators.Length - 1.0) / 2);
 
 			for (int i = 0; i < sepperators.Length; i++)
 			{
 				Rectangle sep = sepperators[i];
 				double x = gap * i;
 				Canvas.SetLeft(sep, x);
+
+				double op = 1.0;
+
+				if(i % 100 == 0)
+				{
+
+				}
+				else if(i % 50 == 0)
+				{
+					op = Lerp(0.5, 1.0, zoom);
+				}
+				else if(i % 10 == 0)
+				{
+					op = Lerp(0.25, 1.0, zoom);
+				}
+				else if(i % 5 == 0)
+				{
+					op = Lerp(0.0, 0.5, zoom);
+				}
+				else
+				{
+					op = Lerp(0.0, 0.25, zoom);
+				}
+
+				sep.Opacity = op;
 			}
 		}
 		#endregion
@@ -80,10 +107,27 @@ namespace Timeline
 		private void TLPan_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitSepperators();
+			DrawSepperators();
 		}
 
 		private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
+			DrawSepperators();
+		}
+
+		private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if(e.Delta > 0)
+			{
+				zoom += 0.1;
+			}
+			else if(e.Delta < 0)
+			{
+				zoom -= 0.1;
+			}
+
+			zoom = (zoom + 1.0) % 1.0;
+
 			DrawSepperators();
 		}
 	}

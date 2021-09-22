@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:Timeline"
         mc:Ignorable="d"
         SizeChanged="Window_SizeChanged"
+        MouseWheel="Window_MouseWheel"
         Title="MainWindow" Height="450" Width="800" Background="#FF1A1A1A">
     <Grid>
-        <Canvas Loaded="TLPan_Loaded" Name="TLPan" Margin="10,50,10,100" VerticalAlignment="Top" Height="30" Background="#FF24266F">
+        <Canvas ClipToBounds="True" Loaded="TLPan_Loaded" Name="TLPan" Margin="10,50,10,100" VerticalAlignment="Top" Height="30" Background="#FF24266F">
         </Canvas>
     </Grid>
 </Window>
