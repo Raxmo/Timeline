@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Timeline"
         mc:Ignorable="d"
+        SizeChanged="Window_SizeChanged"
         Title="MainWindow" Height="450" Width="800" Background="#FF1A1A1A">
     <Grid>
-
+        <Canvas Loaded="TLPan_Loaded" Name="TLPan" Margin="10,50,10,100" VerticalAlignment="Top" Height="30" Background="#FF24266F">
+        </Canvas>
     </Grid>
 </Window>
